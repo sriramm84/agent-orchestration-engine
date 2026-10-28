@@ -1,0 +1,22 @@
+{
+  "evaluation_run_id": "884b62aa-f8dd-4389-a30e-8b348bcb8307",
+  "dataset_id": "eval_dataset_v1_1_20260917",
+  "total_queries": 44,
+  "completion_rate": 1.0,
+  "avg_total_latency_ms": 135.28162727247533,
+  "p50_latency_ms": 124.07515000086278,
+  "p95_latency_ms": 248.12049999309238,
+  "p99_latency_ms": 250.76840000110678,
+  "max_latency_ms": 250.76840000110678,
+  "avg_retry_count": 0.0,
+  "total_failures": 0,
+  "failure_distribution": {},
+  "avg_provenance_coverage": 0.9090909090909091,
+  "avg_confidence_score": 0.75,
+  "normal_query_success_rate": 1.0,
+  "ambiguous_query_success_rate": 1.0,
+  "adversarial_query_success_rate": 1.0,
+  "contradiction_query_success_rate": 1.0,
+  "provenance_query_success_rate": 1.0,
+  "timestamp": "2026-09-17T08:22:57.501936"
+}
