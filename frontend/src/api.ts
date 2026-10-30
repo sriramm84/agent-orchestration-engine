@@ -63,6 +63,20 @@ export interface CompareResult {
   trace_b_valid: boolean;
 }
 
+export interface HealthStatus {
+  api: string;
+  db: string;
+  redis: string;
+}
+
+export async function checkHealth(): Promise<HealthStatus> {
+  const res = await fetch(`${API_BASE}/health`).catch(() => null);
+  if (!res || !res.ok) {
+    return { api: "error", db: "unavailable", redis: "unavailable" };
+  }
+  return res.json();
+}
+
 export async function runQuery(query: string): Promise<QueryResult> {
   const res = await fetch(`${API_BASE}/query/run`, {
     method: "POST",
@@ -71,7 +85,7 @@ export async function runQuery(query: string): Promise<QueryResult> {
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.error || `Request failed: ${res.status}`);
+    throw new Error(body.error || `Request failed with status ${res.status}`);
   }
   return res.json();
 }
@@ -87,7 +101,7 @@ export async function compareTraces(a: QueryResult, b: QueryResult): Promise<Com
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.error || `Request failed: ${res.status}`);
+    throw new Error(body.error || `Comparison request failed with status ${res.status}`);
   }
   return res.json();
 }
@@ -103,7 +117,7 @@ export function streamQuery(query: string, onEvent: (event: StreamEvent) => void
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query }),
   }).then(async (res) => {
-    if (!res.body) throw new Error("No response body for stream");
+    if (!res.body) throw new Error("No response body available for stream");
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let buffer = "";
